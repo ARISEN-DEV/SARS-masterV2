@@ -21,16 +21,16 @@ def login():
         password = request.form["password"]
         password_encode = password.encode("utf-8")
         password_encrypted = bcrypt.hashpw(password_encode, seed)
-        exists = db.session.query(Usuario.id).where(email=email).first() is not None
+        usuario = db.query.filter_by(email=email).first()
         
-        if email and password_encrypted in exists: 
-                session['usuario_id'] = Usuario.id
-
-                flash('Me alegra que estes aqui de nuevo')
-                return redirect(url_for('dashboard'))
-        
-        flash('El usuario no existe')
-        return redirect(url_for('auth.login'))
+        if email and password_encrypted in usuario:
+            session['usuario_id'] = usuario.id
+            flash('Me alegra que estes aqui')
+            return redirect('auth.dashboard')
+        else:
+            flash('El usuario no existe')
+            return redirect(url_for('auth.login'))
+    return render_template('index.html')
 
 @auth.route("/registrar", methods=["POST", "GET"])
 def registrar():
@@ -42,27 +42,25 @@ def registrar():
         password = request.form["password"]
         password_encode = password.encode("utf-8")
         password_encrypted = bcrypt.hashpw(password_encode, seed)
-        exists = db.session.query(Usuario.id).where(email=email).scalar() is not None
+        usuario = db.session.query(Usuario.id).filter_by(email=email).first()
         
-        if nombre and password_encrypted in exists:#passencode - 2passencrypted
-            session['usuario_id'] = Usuario.id
-            return redirect(url_for('auth.dashboard'))
+        if email and password_encrypted == usuario:
+            flash("Las credenciales ya estan siendo usadas")
+            return redirect(url_for('auth.login'))
 
-        new_user = Usuario(nombre, email, password_encrypted)
+        new_user = Usuario(email, password_encrypted, nombre)
         db.session.add(new_user)
         db.session.commit()
 
         flash("Usuario creado satisfactoriamente")
-        return redirect(url_for("auth.dashboard"))
-    flash("Las credenciales ya estan siendo usadas")
-    return render_template('index.html')
+        
+        return redirect(url_for("auth.login"))
+    return render_template('registrar.html')
 
 @auth.route('/logout')
 def logout():
-    
     return redirect(url_for('auth.index'))
 
 @auth.route('/dashboard')
 def dashboard():
-    if g.usuario.id:
-        return render_template('dashboard.html', usuario=session[Usuario.id])
+        return render_template('dashboard.html')
