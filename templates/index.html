@@ -5,7 +5,7 @@
         {% if messages %}
         {% for message in messages %}
             <p></p>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{message}}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
@@ -13,6 +13,9 @@
         {% endif %}
         {% endwith %}
         <form action="/index" method="post">
+            <div>
+                <h3 class="text-center">Inicia sesion</h3>
+            </div>
             <div class="from-group mb-2">
             <input type="text" name="email" class="form-control" placeholder="Correo electronico">
             </div>
@@ -25,7 +28,7 @@
             </button>
             </div>
             <div class="text-center h-auto">
-                <a href="/registrar">
+                <a href="/registrar" class="link-primary">
                     REGISTRATE AQUI 
                 </a>
             </div>
