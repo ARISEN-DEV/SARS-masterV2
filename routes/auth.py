@@ -34,31 +34,25 @@ def login():
         else:
             flash('Usuario incorrecto')
             return redirect(url_for('auth.login'))
-        # elif email!=usuario.email:
-        #     flash('El usuario no existe')
-        #     return redirect(url_for('auth.login'))
-        
-        # elif check_password_hash(usuario.password, password) == False:
-        #     flash('El usuario no existe')
-        #     return redirect(url_for('auth.login'))
         
     return render_template('index.html')
 
 @auth.route("/registrar", methods=["POST", "GET"])
 def registrar():
     if request.method == "POST":
+        
         session.pop('usuario_id', None)
 
-        nombre = request.form["nombre"]
+        nombre = request.form["nombre"]   
         email = request.form["email"]
         password = request.form["password"]
         password_encrypted = generate_password_hash(password)
         usuario = db.session.query(Usuario).filter_by(email=email).first()
         
-        # if email==usuario.email and password==usuario.password:
-        #     flash("Las credenciales ya estan siendo usadas")
-        #     return redirect(url_for('auth.login'))
-
+        if email==usuario.email: ################ NO ANDA EL MUY PUTO
+            flash("Las credenciales ya estan siendo usadas")
+            return redirect(url_for('auth.registrar'))        
+        
         new_user = Usuario(email, password_encrypted, nombre)
         db.session.add(new_user)
         db.session.commit()
@@ -84,6 +78,6 @@ def dashboard():
 def stock():
     if 'usuario_id' in session:
         return render_template('stock.html')
-    else:
+    else: ################ NO ANDA EL MUY PUTO
         flash('Por favor, inicie sesion para acceder a esta pagina')
         return redirect(url_for('auth.login'))
