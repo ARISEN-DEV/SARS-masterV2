@@ -1,11 +1,12 @@
 {% extends 'layout.html' %} {% block body %}
-<div class="col-md-4 offset-md-7-">
+<div class="row">
+<div class="col-sm-4">
     <div class="card card-body">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
         {% for message in messages %}
             <p></p>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
                 {{message}}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
@@ -35,10 +36,15 @@
         </form>
     </div>
 </div>
-<div class="col-md-6 offset-5">
-    <div class="card card-body body ">
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vel, modi veritatis dolorem quasi recusandae illo voluptates amet nesciunt quia cum sunt voluptatum magni ex ipsa minus pariatur unde et nam consequatur repellendus, numquam a? Inventore, dolor consequatur sequi maxime, quis commodi earum reprehenderit repellendus, dolorem doloremque excepturi provident qui mollitia itaque aut veniam sint eveniet natus facere hic odio repellat! Eius fugiat in qui ducimus, voluptas tempore dolor libero culpa facilis necessitatibus repudiandae magnam possimus incidunt quae sit veniam veritatis, sunt nisi cumque voluptatum aperiam optio deleniti saepe nam. Optio est ratione, magnam sed, dolor alias nobis magni autem incidunt dignissimos quia illum ipsam nihil dolore doloremque hic accusamus ad fuga tempora qui deserunt vitae saepe! Placeat debitis, distinctio totam alias recusandae quaerat quasi quam nemo necessitatibus dolorem quod cumque aspernatur dicta vero hic id. Quis, nam accusamus! Laudantium ratione, repellat praesentium maxime non fugiat. Possimus, provident numquam ducimus a ad quasi enim sunt nostrum harum aperiam placeat modi, minima reprehenderit repellat repellendus molestias blanditiis dolor quas iste dolorum ex quibusdam. Officia, aliquam laudantium dolore ratione iste eveniet saepe aspernatur! Numquam debitis quam fugiat veritatis qui quibusdam modi expedita mollitia ducimus iusto, quasi atque maiores voluptate suscipit ipsa. Quasi, aut?</p>
+<div class="col" >
+    <div class="card card-body">
+        <h3 class="text-center">SARS</h3>
+        <p>Bienvenidos a SARS, tu herramienta más fiable a la hora de organizar el stock de tu empresa. La facilidad, simpleza y agilidad son las principales características de SARS, un sistema confiable en el cual podrás tener control total sobre tus productos y poder guardarlos de forma segura con nosotros.</p>
+        <h5>Inventario</h5>
+        <p>Con SARS, puedes mantener tu Inventario al día con un par de simples clics. A medida que utilices la herramienta, podrás apreciar lo fácil que puede llegar a ser estar bien administrado.</p>
+        <h5>Simpleza</h5>
+        <p>Su amigable diseño, permite la facil interaccion entre el usuario y SARS, contemplando las necesidades de todo tipo de publico.</p>
     </div>
 </div>
-
+</div>
 {% endblock %}

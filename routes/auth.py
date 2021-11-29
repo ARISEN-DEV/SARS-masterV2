@@ -9,7 +9,6 @@ auth = Blueprint("auth", __name__)
 
 @auth.route("/")
 def index():
-
     return render_template('index.html')
 
 @auth.route("/index", methods=["POST", "GET"])
@@ -19,12 +18,12 @@ def login():
 
         email = request.form["email"]
         password = request.form["password"]
-        usuario = db.session.query(Usuario).filter_by(email=email).first()
-        if usuario is not None or False:
-            check = check_password_hash(usuario.password, password)
-            log = email==usuario.email
+        g.usuario = db.session.query(Usuario).filter_by(email=email).first()
+        if g.usuario is not None or False:
+            check = check_password_hash(g.usuario.password, password)
+            log = email==g.usuario.email
             if log and check:
-                session['usuario_id'] = usuario.id
+                session['usuario_id'] = g.usuario.id
                 flash("Me alegra que estes aqui")
                 return redirect(url_for('auth.dashboard'))
             else:
@@ -48,11 +47,11 @@ def registrar():
         password = request.form["password"]
         password_encrypted = generate_password_hash(password)
         usuario = db.session.query(Usuario).filter_by(email=email).first()
-        
-        if email==usuario.email: ################ NO ANDA EL MUY PUTO
+
+        if usuario is not None:
             flash("Las credenciales ya estan siendo usadas")
             return redirect(url_for('auth.registrar'))        
-        
+            
         new_user = Usuario(email, password_encrypted, nombre)
         db.session.add(new_user)
         db.session.commit()
@@ -71,13 +70,5 @@ def dashboard():
     if 'usuario_id' in session:
         return render_template('dashboard.html')
     else:
-        flash('Por favor, inicie sesion para acceder a esta pagina')
-        return redirect(url_for('auth.login'))
-
-@auth.route('/stock')
-def stock():
-    if 'usuario_id' in session:
-        return render_template('stock.html')
-    else: ################ NO ANDA EL MUY PUTO
         flash('Por favor, inicie sesion para acceder a esta pagina')
         return redirect(url_for('auth.login'))
